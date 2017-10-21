@@ -38,12 +38,12 @@
 //for cmdline parsing 
 #include <android-base/file.h>
 #include <android-base/strings.h>
-
-#include "vendor_init.h"
+#include <android-base/properties.h>
 #include "property_service.h"
-#include "log.h"
+#include "vendor_init.h"
 #include "util.h"
 
+using android::base::GetProperty;
 static std::string board_id;
 using android::base::Trim;
 
@@ -160,41 +160,35 @@ void read_ramconfig()
     }
 }
 
-void variant_properties()
+void init_variant_properties()
 {
-    if (property_get("ro.validus.device") != "land")
+    if (GetProperty("ro.validus.device", "") != "land")
         return;
 
-    import_kernel_cmdline1(0, import_cmdline);
-    
-    //set board
-    property_set("ro.product.wt.boardid", board_id.c_str());
+    import_kernel_cmdline1(false, import_cmdline);
 
+    // Set board
+    property_set("ro.product.wt.boardid", board_id.c_str());
 
     //Variants
     if (board_id == "S88537AA1") {
-        property_set("ro.miui.support_fingerprint", "true");
         property_set("ro.build.display.wtid", "SW_S88537AA1_V079_M20_MP_XM");
     } else if (board_id == "S88537AB1") {
-        property_set("ro.miui.support_fingerprint", "true");
         property_set("ro.build.display.wtid", "SW_S88537AB1_V079_M20_MP_XM");
     } else if (board_id == "S88537AC1") {
         property_set("ro.build.display.wtid", "SW_S88537AC1_V079_M20_MP_XM");
-        property_set("ro.miui.support_fingerprint", "false");
     } else if (board_id == "S88537BA1") {
-        property_set("ro.miui.support_fingerprint", "true");
         property_set("ro.build.display.wtid", "SW_S88537BA1_V079_M20_MP_XM");
         property_set("mm.enable.qcom_parser", "196495");
     } else if (board_id == "S88537CA1") {
-        property_set("ro.miui.support_fingerprint", "true");
         property_set("ro.build.display.wtid", "SW_S88537CA1_V079_M20_MP_XM");
         property_set("mm.enable.qcom_parser", "196495");
     } else if (board_id == "S88537EC1") {
         property_set("ro.build.display.wtid", "SW_S88537EC1_V079_M20_MP_XM");
-        property_set("ro.miui.support_fingerprint", "false");
         property_set("mm.enable.qcom_parser", "196495");
     }
 
+    // Variants
     if (board_id == "S88537AB1"){
         property_set("ro.product.model", "Redmi 3X");
     } else {
@@ -211,3 +205,4 @@ void vendor_load_properties()
     init_alarm_boot_properties();
     variant_properties();
 }
+
