@@ -289,6 +289,7 @@ private:
     int32_t notifyErrorForPendingRequests();
     int32_t getReprocessibleOutputStreamId(uint32_t &id);
     int32_t handleCameraDeviceError();
+    nsecs_t getBootToMonoTimeOffset();
 
     bool isOnEncoder(const cam_dimension_t max_viewfinder_size,
             uint32_t width, uint32_t height);
