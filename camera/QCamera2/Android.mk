@@ -80,12 +80,12 @@ LOCAL_C_INCLUDES := \
         $(LOCAL_PATH)/stack/mm-camera-interface/inc \
         $(LOCAL_PATH)/util \
         $(LOCAL_PATH)/HAL3 \
-        hardware/libhardware/include/hardware \
+        $(LOCAL_PATH)/stack/mm-dependencies/hardware/libhardware/include/hardware \
         $(call project-path-for,qcom-media)/libstagefrighthw \
         $(call project-path-for,qcom-media)/mm-core/inc \
-        system/core/include/cutils \
-        system/core/include/system \
-        system/media/camera/include/system
+        $(LOCAL_PATH)/stack/mm-dependencies/system/core/include/cutils \
+        $(LOCAL_PATH)/stack/mm-dependencies/system/core/include/system \
+        $(LOCAL_PATH)/stack/mm-dependencies/system/media/camera/include/system
 
 #HAL 1.0 Include paths
 LOCAL_C_INCLUDES += \
